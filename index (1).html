@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H.I.D.R.A Intelligence Terminal</title>
+
+<style>
+
+body{
+margin:0;
+background:#07030d;
+font-family:monospace;
+color:#b84dff;
+text-align:center;
+}
+
+/* GRID BACKGROUND */
+
+body::before{
+content:"";
+position:fixed;
+width:100%;
+height:100%;
+background-image:
+linear-gradient(rgba(184,77,255,0.07) 1px, transparent 1px),
+linear-gradient(90deg, rgba(184,77,255,0.07) 1px, transparent 1px);
+background-size:40px 40px;
+z-index:-1;
+}
+
+/* LOGO */
+
+.logo{
+width:150px;
+margin-top:20px;
+
+filter:
+hue-rotate(260deg)
+saturate(2)
+drop-shadow(0 0 20px #b84dff);
+
+animation:
+rotate 30s linear infinite,
+glow 3s ease-in-out infinite;
+}
+
+@keyframes rotate{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
+}
+
+@keyframes glow{
+0%{filter:hue-rotate(260deg) saturate(2) drop-shadow(0 0 10px #b84dff);}
+50%{filter:hue-rotate(260deg) saturate(2) drop-shadow(0 0 35px #b84dff);}
+100%{filter:hue-rotate(260deg) saturate(2) drop-shadow(0 0 10px #b84dff);}
+}
+
+/* HEADER */
+
+.header{
+padding:15px;
+border-bottom:1px solid #b84dff;
+text-shadow:0 0 10px #b84dff;
+letter-spacing:2px;
+font-size:18px;
+}
+
+/* TERMINAL */
+
+#terminal{
+padding:20px;
+height:calc(100vh - 260px);
+overflow:auto;
+white-space:pre-line;
+text-align:left;
+}
+
+/* COMMAND INPUT */
+
+.command{
+border-top:1px solid #b84dff;
+padding:10px;
+}
+
+input{
+width:100%;
+background:none;
+border:none;
+color:#b84dff;
+font-family:monospace;
+font-size:16px;
+outline:none;
+}
+
+/* RED ALERT FOR WESKER */
+
+.alert{
+color:#ff0000;
+font-weight:bold;
+text-shadow:0 0 10px red;
+animation:redblink 1s infinite;
+}
+
+@keyframes redblink{
+0%{opacity:1}
+50%{opacity:0.2}
+100%{opacity:1}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<img src="hydra.png" class="logo">
+
+<div class="header">
+H.I.D.R.A INTELLIGENCE NETWORK
+</div>
+
+<div id="terminal"></div>
+
+<div class="command">
+> <input id="cmd" placeholder="enter command">
+</div>
+
+<script>
+
+const terminal = document.getElementById("terminal")
+const cmd = document.getElementById("cmd")
+
+const text = `
+> Initializing H.I.D.R.A intelligence terminal...
+> Establishing encrypted global network...
+
+> TARGET DETECTED
+> CYBER LIFE PHARMACEUTICALS
+
+> Known facility:
+> Boston Biotech Laboratory - Massachusetts
+
+> Accessing experiment database...
+
+> Experiment CL-01: JOHN CARTER
+Status: Missing
+
+> Experiment CL-02: EMILY JOHNSON
+Status: Unknown
+
+> Experiment CL-03: MICHAEL THOMPSON
+Status: Classified
+
+> Experiment CL-04: SARAH MILLER
+Status: Containment unstable
+
+> Experiment CL-05: DAVID ANDERSON
+Status: Active subject
+
+> HIGH PRIORITY TARGET
+
+> Experiment CL-11: ALBERT WESKER
+Status: PRIORITY TARGET
+
+> Terminal ready
+> Type "help" for commands
+`;
+
+let i = 0
+const speed = 25
+
+function typeWriter(){
+if(i < text.length){
+terminal.innerHTML += text.charAt(i)
+i++
+setTimeout(typeWriter, speed)
+}
+}
+
+typeWriter()
+
+cmd.addEventListener("keydown", function(e){
+
+if(e.key === "Enter"){
+
+const value = cmd.value.toLowerCase()
+
+terminal.innerHTML += "\n\n> " + value + "\n"
+
+if(value === "help"){
+
+terminal.innerHTML += `
+Available commands:
+
+scan
+wesker
+experiments
+cyberlife
+hydra
+clear
+`
+
+}
+
+else if(value === "scan"){
+
+terminal.innerHTML += `
+Scanning Cyber Life network...
+
+Facility found:
+Boston Biotech Laboratory
+`
+
+}
+
+else if(value === "wesker"){
+
+terminal.innerHTML += `
+<span class="alert">ALBERT WESKER</span>
+
+Status: PRIORITY TARGET
+Location: Unknown
+Threat level: EXTREME
+`
+
+}
+
+else if(value === "experiments"){
+
+terminal.innerHTML += `
+CL-01 John Carter
+CL-02 Emily Johnson
+CL-03 Michael Thompson
+CL-04 Sarah Miller
+CL-05 David Anderson
+CL-11 Albert Wesker
+`
+
+}
+
+else if(value === "cyberlife"){
+
+terminal.innerHTML += `
+Cyber Life Facilities:
+
+Boston
+Zurich
+Tokyo
+Berlin
+`
+
+}
+
+else if(value === "hydra"){
+
+terminal.innerHTML += "HAIL HYDRA"
+
+}
+
+else if(value === "clear"){
+
+terminal.innerHTML = ""
+
+}
+
+else{
+
+terminal.innerHTML += "Unknown command"
+
+}
+
+terminal.scrollTop = terminal.scrollHeight
+
+cmd.value=""
+
+}
+
+})
+
+</script>
+
+</body>
+</html>
